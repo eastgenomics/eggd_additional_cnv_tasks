@@ -19,7 +19,7 @@ def add_length(vcf,output_name):
     # Adds new field information in the vcf header
     vcf.header.add_meta('INFO',items=[
         ('ID', "CNVLEN"), ('Number', "1"), ('Type', 'Integer'),
-        ('Description', 'Difference between END and POS coordinates for CNV length')])
+        ('Description', 'Difference between END and POS coordinates')])
 
     # Create a new VCF object to write to with the above header
     out_vcf=VariantFile(output_name, 'w', header=vcf.header)
@@ -30,7 +30,11 @@ def add_length(vcf,output_name):
         # Accounts for 1-base of the vcf
         variant.info.__setitem__('CNVLEN',variant.rlen)
         out_vcf.write(variant)
-        print ('Added record length POS {0} END {1}, calculated length {2}'.format(variant.pos,variant.stop,variant.rlen))
+
+        print(
+            f'Added record length CHROM {variant.chrom} ,'
+            f'POS {variant.pos} END {variant.stop},'
+            f'calculated length {variant.rlen} bp')
 
     out_vcf.close()
 

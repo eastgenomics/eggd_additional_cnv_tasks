@@ -4,6 +4,14 @@ from pysam import VariantFile
 
 
 def read_vcf(vcf):
+    """ Reads in vcf information into dataframe.
+
+    Args:
+        vcf (pysam object): Input vcf read through pysam
+
+    Returns:
+        df: dataframe of required information
+    """
 
     # Create an empty dataframe
     df = pd.DataFrame(columns=["Sample","CHROM","POS","END","NP","CN"])
