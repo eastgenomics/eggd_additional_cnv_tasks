@@ -14,17 +14,16 @@ def read_vcf(vcf):
     """
 
     # Create an empty dataframe
-    df = pd.DataFrame(columns=["Sample","CHROM","POS","END","NP","CN"])
+    df = pd.DataFrame(columns=["Sample", "CHROM", "POS", "END", "NP", "CN"])
 
     for variant in vcf:
 
-
         assert len(list(variant.samples)) == 1, (
-        "This app was created for single sample vcfs, "
-        "can't work with multisample or the sample is missing.")
+            "This app was created for single sample vcfs, "
+            "can't work with multisample or the sample is missing.")
 
         # Get sample name from vcf
-        sample=list(variant.samples)[0]
+        sample = list(variant.samples)[0]
 
         # Grab information from the vcf and add to a Series
         entry = pd.DataFrame([{
@@ -44,7 +43,7 @@ def read_vcf(vcf):
 
 def main(args):
 
-    patient=args.vcf
+    patient = args.vcf
 
     # Read in the input patient vcf
     patient_vcf = VariantFile(patient)
@@ -60,7 +59,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v','--vcf')
+    parser.add_argument('-v', '--vcf')
 
     args = parser.parse_args()
 

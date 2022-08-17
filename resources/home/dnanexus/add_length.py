@@ -8,7 +8,8 @@ Positional args:
 import argparse
 from pysam import VariantFile
 
-def add_length(vcf,output_name):
+
+def add_length(vcf, output_name):
     """ Calculates length and adds it as a field to a new vcf
 
     Args:
@@ -17,18 +18,18 @@ def add_length(vcf,output_name):
     """
 
     # Adds new field information in the vcf header
-    vcf.header.add_meta('INFO',items=[
+    vcf.header.add_meta('INFO', items=[
         ('ID', "CNVLEN"), ('Number', "1"), ('Type', 'Integer'),
         ('Description', 'Difference between END and POS coordinates')])
 
     # Create a new VCF object to write to with the above header
-    out_vcf=VariantFile(output_name, 'w', header=vcf.header)
+    out_vcf = VariantFile(output_name, 'w', header=vcf.header)
 
     for variant in vcf:
         # For each variant in the vcf calculate the length
         # variant.rlen = (END - POS) + 1  is a pysam built in function
         # Accounts for 1-base of the vcf
-        variant.info.__setitem__('CNVLEN',variant.rlen)
+        variant.info.__setitem__('CNVLEN', variant.rlen)
         out_vcf.write(variant)
 
         print(
@@ -38,6 +39,7 @@ def add_length(vcf,output_name):
 
     out_vcf.close()
 
+
 def main(args):
 
     patient = args.vcf
@@ -46,14 +48,15 @@ def main(args):
     patient_vcf = VariantFile(patient)
     patient_vcf_basename = patient.split("/")[-1].rstrip(".vcf.gz")
 
-    out_name=patient_vcf_basename + "_length.vcf.gz"
+    out_name = patient_vcf_basename + "_length.vcf.gz"
 
     # Add length to vcf
-    add_length(patient_vcf,out_name)
+    add_length(patient_vcf, out_name)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v','--vcf')
+    parser.add_argument('-v', '--vcf')
 
     args = parser.parse_args()
 
