@@ -20,20 +20,20 @@
       "help": "CNV VCF file containing END field."
     },
     {
-      "name": "length_only",
+      "name": "output_length",
       "label": "Only add length to VCF",
       "class": "boolean",
       "optional": true,
-      "default": false,
-      "help": "Boolean option if only vcf needed with added length"
+      "default": true,
+      "help": "Boolean option whether to output length vcf"
     },
     {
-      "name": "seg_only",
+      "name": "output_seg",
       "label": "Only create the seg file",
       "class": "boolean",
       "optional": true,
-      "default": false,
-      "help": "Boolean option if only seg file needed"
+      "default": true,
+      "help": "Boolean option whether to output seg file"
     }
   ],
   "outputSpec": [
@@ -41,6 +41,7 @@
       "name": "output_vcf",
       "label": "VCF with added length",
       "class": "file",
+      "optional": true,
       "patterns": [
         "*"
       ],

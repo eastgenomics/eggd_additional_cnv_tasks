@@ -8,8 +8,8 @@ set -e -x -o pipefail
 main() {
 
     echo "Value of vcf: '$vcf'"
-    echo "Value of length_only: '$length_only'"
-    echo "Value of seg_only: '$seg_only'"
+    echo "Value of length_only: '$output_length'"
+    echo "Value of seg_only: '$output_seg'"
 
     # Download input vcf
     dx download "$vcf"
@@ -20,37 +20,44 @@ main() {
 
     sudo -H python3 -m pip install --no-index --no-deps packages/*
 
-    mark-section "Adding length to CNV"
-
-    bcftools index $vcf_name
-    python3 /home/dnanexus/add_length.py --vcf $vcf_name
-
-    mark-section "Making seg visualisation file"
-
-    python3 /home/dnanexus/make_seg.py --vcf $vcf_name
-
-    mark-section "Uploading output"
     mkdir -p /home/dnanexus/out/seg_file
     mkdir -p /home/dnanexus/out/output_vcf
 
     outname=$(sed 's/.vcf\|.gz//g' <<< "$vcf_name")
 
-    if [ "$length_only" == true ] && [ "$seg_only" == true ]; then
-       dx-jobutil-report-error "Invalid option combination, please run as default. :)"
+    # Check if not compressed and compress
+    if [[ $vcf_name == *vcf ]]; then
+            bgzip $vcf_name
+    fi
+
+    # Check if both outputs have been turned off and exit
+    if [ "$output_length" == false ] && [ "$output_seg" == false ]; then
+       dx-jobutil-report-error "Invalid option combination, this will not output anything. :)"
        exit 1
+    fi
 
-    elif [ "$length_only" == true ]; then
+    # Add length to vcf if required
+    if [ "$output_length" == true ]; then
+
+        mark-section "Adding length to CNV"
+
+        bcftools index ${outname}.vcf.gz
+        python3 /home/dnanexus/add_length.py --vcf ${outname}.vcf.gz
+
         mv "${outname}_length.vcf.gz" /home/dnanexus/out/output_vcf/
+    fi
 
-    elif [ "$seg_only" == true ]; then
-        mv /home/dnanexus/*seg /home/dnanexus/out/seg_file/
+    # Create seg file if required
+    if [ "$output_seg" == true ]; then
 
-    else
-        mv "${outname}_length.vcf.gz" /home/dnanexus/out/output_vcf/
-        mv /home/dnanexus/*seg /home/dnanexus/out/seg_file/
+        mark-section "Making seg visualisation file"
+
+        python3 /home/dnanexus/make_seg.py --vcf ${outname}.vcf.gz
+        mv /home/dnanexus/${outname}.seg /home/dnanexus/out/seg_file/
 
     fi
 
+    mark-section "Uploading output"
     # upload all outputs
     dx-upload-all-outputs --parallel
 
