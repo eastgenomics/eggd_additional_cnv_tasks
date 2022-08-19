@@ -1,7 +1,7 @@
 """
 Reads in vcf and calculates CNVLEN field
 
-Positional args:
+Args:
     - vcf to add length to
 """
 
@@ -56,7 +56,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--vcf')
+    parser.add_argument(
+        '-v', '--vcf',
+        help='Required single-sample input vcf containing END INFO field')
 
     args = parser.parse_args()
 

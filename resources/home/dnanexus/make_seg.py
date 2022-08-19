@@ -1,5 +1,5 @@
-import pandas as pd
 import argparse
+import pandas as pd
 from pysam import VariantFile
 
 
@@ -59,7 +59,9 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-v', '--vcf')
+    parser.add_argument(
+        '-v', '--vcf',
+        help='Required single-sample input vcf containing END INFO field')
 
     args = parser.parse_args()
 

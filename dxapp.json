@@ -1,7 +1,7 @@
 {
   "name": "eggd_additional_cnv_tasks",
   "title": "eggd_additional_cnv_tasks",
-  "summary": "Adds length to CNV  VCF and creates seg file for visualisation",
+  "summary": "Adds length to CNV VCF and creates seg file for visualisation",
   "dxapi": "1.0.0",
   "version": "1.0.0",
   "properties": {
@@ -25,7 +25,7 @@
       "class": "boolean",
       "optional": true,
       "default": false,
-      "help": "Boolean option if only vcf needed"
+      "help": "Boolean option if only vcf needed with added length"
     },
     {
       "name": "seg_only",
@@ -77,6 +77,12 @@
     "release": "20.04",
     "version": "0"
   },
+  "developers":[
+    "org-emee_1"
+  ],
+  "authorizedUsers": [
+    "org-emee_1"
+  ],
   "regionalOptions": {
     "aws:eu-central-1": {
       "systemRequirements": {

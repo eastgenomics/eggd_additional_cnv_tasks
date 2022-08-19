@@ -25,7 +25,7 @@ main() {
     bcftools index $vcf_name
     python3 /home/dnanexus/add_length.py --vcf $vcf_name
 
-    mark-section "Adding length to CNV"
+    mark-section "Making seg visualisation file"
 
     python3 /home/dnanexus/make_seg.py --vcf $vcf_name
 
@@ -40,15 +40,12 @@ main() {
        exit 1
 
     elif [ "$length_only" == true ]; then
-
         mv "${outname}_length.vcf.gz" /home/dnanexus/out/output_vcf/
 
-    elif [ "$seg_only" == true ];then
-
+    elif [ "$seg_only" == true ]; then
         mv /home/dnanexus/*seg /home/dnanexus/out/seg_file/
 
     else
-
         mv "${outname}_length.vcf.gz" /home/dnanexus/out/output_vcf/
         mv /home/dnanexus/*seg /home/dnanexus/out/seg_file/
 
