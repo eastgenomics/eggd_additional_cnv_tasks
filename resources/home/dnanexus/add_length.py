@@ -6,6 +6,8 @@ Args:
 """
 
 import argparse
+from pathlib import Path
+
 from pysam import VariantFile
 
 
@@ -46,9 +48,9 @@ def main(args):
 
     # Read in the input patient vcf
     patient_vcf = VariantFile(patient)
-    patient_vcf_basename = patient.split("/")[-1].rstrip(".vcf.gz")
 
-    out_name = patient_vcf_basename + "_length.vcf.gz"
+    suffixes = "".join(Path(patient).suffixes)
+    out_name = f'{Path(patient).name.replace(suffixes, "_length.vcf.gz")}'
 
     # Add length to vcf
     add_length(patient_vcf, out_name)

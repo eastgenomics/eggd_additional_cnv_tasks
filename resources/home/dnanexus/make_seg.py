@@ -1,4 +1,6 @@
 import argparse
+from pathlib import Path
+
 import pandas as pd
 from pysam import VariantFile
 
@@ -47,10 +49,10 @@ def main(args):
 
     # Read in the input patient vcf
     patient_vcf = VariantFile(patient)
-    patient_vcf_basename = patient.split("/")[-1].rstrip(".vcf.gz")
 
     # Set output name
-    output_seg = patient_vcf_basename + ".seg"
+    suffixes = "".join(Path(patient).suffixes)
+    output_seg = f'{Path(patient).name.replace(suffixes, ".seg")}'
 
     # Parse vcf and output into a seg file
     seg = read_vcf(patient_vcf)
