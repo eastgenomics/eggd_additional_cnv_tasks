@@ -3,9 +3,9 @@
   "title": "eggd_additional_cnv_tasks",
   "summary": "Adds length to CNV VCF and creates seg file for visualisation",
   "dxapi": "1.0.0",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "properties": {
-    "githubRelease": "1.0.0"
+    "githubRelease": "1.0.1"
     },
   "inputSpec": [
     {

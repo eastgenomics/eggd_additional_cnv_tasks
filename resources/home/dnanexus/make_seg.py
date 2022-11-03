@@ -31,7 +31,7 @@ def read_vcf(vcf):
         entry = pd.DataFrame([{
             "Sample": sample.split('-')[0],
             "CHROM": variant.chrom,
-            "POS": variant.start,
+            "POS": variant.start + 1,
             "END": variant.stop,
             "CN":variant.samples[sample]['CN'],
             "NP":variant.samples[sample]['NP']
