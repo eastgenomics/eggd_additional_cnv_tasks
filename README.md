@@ -30,7 +30,7 @@ __This app uses the following tools which are app assets:__
   - This file contains the following columns:
     - **Sample** - Sample identifier.
     - **Chrom** - Chromosome
-    - **Pos** - Position of event (0-based)
+    - **Pos** - Position of event (1-based)
     - **End** - End coordinate of event
     - **NP** - Number of points (targets in CNV calling)
     - **CN** - copy number of event (colours bar in IGV depending on CN)
